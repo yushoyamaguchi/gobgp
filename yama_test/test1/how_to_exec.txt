@@ -1,0 +1,4 @@
+go mod downloadして、
+gobgpdとgobgpをgo buildしたのち、
+./gobgpd -f <configファイル> 
+で実行
