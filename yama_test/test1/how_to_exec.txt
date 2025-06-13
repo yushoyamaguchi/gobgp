@@ -2,3 +2,13 @@ go mod downloadして、
 gobgpdとgobgpをgo buildしたのち、
 ./gobgpd -f <configファイル> 
 で実行
+
+
+ビルド方法は
+go build ./cmd/gobgpd
+go build ./cmd/gobgp
+
+
+
+netnsへのログインは、
+sudo ip netns exec host1 bash
