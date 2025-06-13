@@ -7,3 +7,9 @@ sudo ip addr add 10.0.0.1/24 dev veth1
 sudo ip link set veth1 up
 sudo ip netns exec host1 ip addr add 10.0.0.2/24 dev host1-veth1
 sudo ip netns exec host1 ip link set host1-veth1 up
+
+
+go mod download
+go build ./cmd/gobgpd
+go build ./cmd/gobgp
+
