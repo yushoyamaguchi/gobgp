@@ -32,3 +32,8 @@ test/scenario_test/nosetest*.xml
 # IDE workspace
 .idea
 .vscode
+
+
+gobgp
+gobgpd
+yama_test/**/*.log
