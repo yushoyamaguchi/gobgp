@@ -5,6 +5,7 @@ setup: sudo-in-advance
 	-$(MAKE) set-netns || true
 	-$(MAKE) build-gobgp || true
 	-$(MAKE) run-gobgp || true
+	-$(MAKE) gobgp-static-route || true
 
 cleanup: sudo-in-advance
 	-$(MAKE) kill-gobgp || true
@@ -32,6 +33,13 @@ build-gobgp:
 run-gobgp:
 	sudo ./gobgpd -f ./host.conf > ./host.log 2>&1 &
 	sudo ip netns exec host1 ./gobgpd -f ./netns.conf > ./netns.log 2>&1 &
+
+gobgp-static-route:
+	sleep 2
+	./gobgp global rib add 10.0.0.0/24  nexthop 0.0.0.0 || true
+	./gobgp global rib add 192.168.1.0/24 nexthop 0.0.0.0 || true
+	sudo ip netns exec host1 ./gobgp global rib add 10.0.0.0/24  nexthop 0.0.0.0 || true
+	sudo ip netns exec host1 ./gobgp global rib add 192.168.2.0/24 nexthop 0.0.0.0 || true
 
 kill-gobgp:
 	sudo pkill gobgpd
