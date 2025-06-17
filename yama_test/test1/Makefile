@@ -34,8 +34,8 @@ run-gobgp:
 	sudo ./gobgpd -f ./host.conf > ./host.log 2>&1 &
 	sudo ip netns exec host1 ./gobgpd -f ./netns.conf > ./netns.log 2>&1 &
 
-gobgp-static-route:
-	sleep 2
+gobgp-static-route: sudo-in-advance
+	sleep 1
 	./gobgp global rib add 10.0.0.0/24  nexthop 0.0.0.0 || true
 	./gobgp global rib add 192.168.1.0/24 nexthop 0.0.0.0 || true
 	sudo ip netns exec host1 ./gobgp global rib add 10.0.0.0/24  nexthop 0.0.0.0 || true
@@ -44,13 +44,13 @@ gobgp-static-route:
 kill-gobgp:
 	sudo pkill gobgpd
 
-verify-routes:
+verify-routes: sudo-in-advance
 	@echo "=== Host BGP routes ==="
 	./gobgp global rib
 	@echo "=== Netns BGP routes ==="
 	sudo ip netns exec host1 ./gobgp global rib
 
-show-neighbors:
+show-neighbors: sudo-in-advance
 	@echo "=== Host BGP neighbors ==="
 	./gobgp neighbor
 	@echo "=== Netns BGP neighbors ==="
